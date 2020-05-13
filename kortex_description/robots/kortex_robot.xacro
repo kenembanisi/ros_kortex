@@ -9,7 +9,8 @@
         <xacro:unless value="${not gripper}">
             <xacro:include filename="$(find kortex_description)/grippers/${gripper}/urdf/${gripper}_macro.xacro" />
         </xacro:unless>
-        
+        <xacro:include filename="$(find kortex_description)/base/urdf/base_macro.xacro" />
+
         <xacro:if value="${sim}">
             <!-- Arm transmission elements-->
             <xacro:include filename="$(find kortex_description)/arms/${arm}/${dof}dof/urdf/${arm}_transmission_macro.xacro" />
@@ -22,15 +23,25 @@
         <!-- Run the macros -->
 
         <!-- For gazebo-->
-        <xacro:if value="${sim}">
+        <!-- <xacro:if value="${sim}">
             <link name="world" />
             <joint name="world_to_root" type="fixed">
                 <child link="${prefix}base_link" />
                 <parent link="world" />
                 <origin xyz="0 0 0" rpy="0 0 0" />    
             </joint> 
+        </xacro:if> -->
+        <xacro:if value="${sim}">
+            <joint name="arm_to_mobile_base" type="fixed">
+                <child link="${prefix}base_link" />
+                <parent link="base_link" />
+                <origin xyz="0 0 0.184" rpy="0 0 0" />    
+            </joint> 
         </xacro:if>
         
+        <!-- Load the base -->
+        <xacro:load_base />
+
         <!-- Load the arm -->
         <xacro:load_arm parent="" dof="${dof}" vision="${vision}" prefix="${prefix}">
             <origin xyz="0 0 0" rpy="0 0 0"/> 

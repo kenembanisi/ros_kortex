@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 
 <robot name="gen3_robotiq_2f_85" xmlns:xacro="http://ros.org/wiki/xacro">
-    
+    <!-- <robot xmlns:xacro="http://ros.org/wiki/xacro"> -->
+
+
     <!-- Arguments -->
     <xacro:arg name="arm" default="gen3" />
     <xacro:arg name="dof" default="7" />
@@ -9,7 +11,7 @@
 
     <xacro:arg name="gripper" default="robotiq_2f_85" />
 
-    <xacro:arg name="sim" default="false" />
+    <xacro:arg name="sim" default="true" />
     <xacro:arg name="prefix" default="" />
 
     <xacro:include filename="$(find kortex_description)/robots/kortex_robot.xacro" />
