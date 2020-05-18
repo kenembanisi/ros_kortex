@@ -9,7 +9,8 @@
         <xacro:unless value="${not gripper}">
             <xacro:include filename="$(find kortex_description)/grippers/${gripper}/urdf/${gripper}_macro.xacro" />
         </xacro:unless>
-        <xacro:include filename="$(find kortex_description)/base/urdf/base_macro.xacro" />
+        <!-- <xacro:include filename="$(find kortex_description)/base/urdf/base_macro.xacro" /> -->
+        <xacro:include filename="$(find kortex_description)/base/urdf/freight_macro.xacro" />
 
         <xacro:if value="${sim}">
             <!-- Arm transmission elements-->
@@ -34,8 +35,8 @@
         <xacro:if value="${sim}">
             <joint name="arm_to_mobile_base" type="fixed">
                 <child link="${prefix}base_link" />
-                <parent link="base_link" />
-                <origin xyz="0 0 0.184" rpy="0 0 0" />    
+                <parent link="chassis_link" />
+                <origin xyz="0 0 0.36" rpy="0 0 0" />    
             </joint> 
         </xacro:if>
         

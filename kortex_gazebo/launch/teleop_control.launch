@@ -2,7 +2,7 @@
     
     <!-- joy node -->
     <node respawn="true" pkg="joy" type="joy_node" name="turtle_joy" >
-        <param name="dev" type="string" value="/dev/input/js1" />
+        <param name="dev" type="string" value="/dev/input/js0" />
         <param name="deadzone" value="0.12" />
     </node>
 
@@ -14,8 +14,11 @@
     <param name="enable_button" value="1" type="int"/>
     
     
-    <node name="joystick_teleop" pkg="teleop_twist_joy" type="teleop_node" >
-        <remap from="/cmd_vel" to="/my_gen3/jackal_velocity_controller/cmd_vel" />
+    <!-- <node name="joystick_teleop" pkg="teleop_twist_joy" type="teleop_node" >
+        <remap from="/cmd_vel" to="/my_gen3/base_controller/cmd_vel" />
+    </node> -->
+
+    <node name="mobile_base_control" pkg="kortex_mobile_robot" type="haptic_control.py">
     </node>
 
 </launch>
