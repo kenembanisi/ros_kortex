@@ -13,8 +13,9 @@
 
     <xacro:arg name="sim" default="true" />
     <xacro:arg name="prefix" default="arm_" />
+    <xacro:arg name="ns" default="my_$(arg arm)" />
 
     <xacro:include filename="$(find kortex_description)/robots/kortex_robot.xacro" />
-    <xacro:load_robot arm="$(arg arm)" gripper="$(arg gripper)" dof="$(arg dof)" vision="$(arg vision)" sim="$(arg sim)" prefix="$(arg prefix)" />
+    <xacro:load_robot arm="$(arg arm)" gripper="$(arg gripper)" dof="$(arg dof)" vision="$(arg vision)" sim="$(arg sim)" prefix="$(arg prefix)" ns="$(arg ns)" />
 
 </robot>

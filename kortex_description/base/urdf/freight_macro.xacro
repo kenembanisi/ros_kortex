@@ -4,8 +4,9 @@
   
   <xacro:macro name="load_base" >
 
-      <xacro:include filename="$(find fetch_description)/robots/freight.urdf" />
-
+      <!-- <xacro:include filename="$(find fetch_description)/robots/freight.urdf.xacro" /> -->
+      <xacro:include filename="$(find kortex_description)/base/urdf/freight.urdf.xacro" />
+    
       <!-- Base is modeled as a big tub sitting on floor, with two wheels -->
       <gazebo reference="chassis_link">
         <kp>100000000.0</kp>
@@ -42,12 +43,16 @@
       <gazebo reference="r_wheel_joint">
         <implicitSpringDamper>1</implicitSpringDamper>
       </gazebo>
+      <gazebo reference="camera_support">
+        <material>Gazebo/Black</material>
+      </gazebo>
 
       <!-- SICK TIM561 (25m Range) -->
-      <gazebo reference="laser_link">
+      <gazebo reference="${ns}/laser_link">
+      <!-- <gazebo reference="laser_link">   <! TEMPORARY FIX -->
         <sensor type="ray" name="base_laser">
           <pose>0 0 0 0 0 0</pose>
-          <visualize>true</visualize>
+          <visualize>false</visualize>
           <update_rate>15</update_rate>
           <ray>
             <scan>
@@ -86,6 +91,7 @@
       <gazebo>
         <plugin name="fetch_gazebo_plugin" filename="libfetch_gazebo_plugin.so"/>
       </gazebo>
+      
   
   </xacro:macro>
 

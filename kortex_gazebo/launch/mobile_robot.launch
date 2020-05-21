@@ -66,8 +66,8 @@
             args="-urdf -param robot_description -model $(arg robot_name) -x $(arg x0) -y $(arg y0) -z $(arg z0) -Y $(arg yaw)
                 -robot_namespace $(arg robot_name)
                 -J $(arg prefix)joint_1 1.57
-                -J $(arg prefix)joint_2 0.00
-                -J $(arg prefix)joint_3 2.14
+                -J $(arg prefix)joint_2 0.3
+                -J $(arg prefix)joint_3 2.54
                 -J $(arg prefix)joint_4 -2.00
                 -J $(arg prefix)joint_5 0
                 -J $(arg prefix)joint_6 -1.00
@@ -78,7 +78,7 @@
             args="-urdf -param robot_description -model $(arg robot_name) -x $(arg x0) -y $(arg y0) -z $(arg z0) -Y $(arg yaw)
             -robot_namespace $(arg robot_name)
                 -J $(arg prefix)joint_1 0.0
-                -J $(arg prefix)joint_2 -1.2
+                -J $(arg prefix)joint_2 -0.9
                 -J $(arg prefix)joint_3 -3.2
                 -J $(arg prefix)joint_4 -2.00
                 -J $(arg prefix)joint_5 0
@@ -135,7 +135,7 @@
         respawn="false" output="screen" />
 
         <!-- Starting Joint state publisher node which will publish the joint values. Using the gui alterantive -->
-        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+        <!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" /> -->
 
 
         <!-- <group if="$(arg use_trajectory_controller)"> -->
