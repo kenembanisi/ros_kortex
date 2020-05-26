@@ -7,7 +7,7 @@
     <arg name="vision" default="true"/> <!-- True if the arm has a Vision module -->
 
     <!-- Gripper configuration -->
-    <arg name="gripper" default=""/>
+    <arg name="gripper" default="robotiq_2f_85"/>
 
     <!-- Start Rviz -->
     <arg name="start_rviz" default="true"/>
