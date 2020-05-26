@@ -196,7 +196,7 @@
   <xacro:property name="mass" value="0.2" /> 
   <xacro:property name="width" value="0.03" /> 
   <xacro:property name="height1" value="0.8" /> 
-  <xacro:property name="axel_offset" value="0.05" /> 
+  <xacro:property name="axel_offset" value="-0.25" /> 
   
   <link name="camera_support">
     <collision>
@@ -211,29 +211,123 @@
       <geometry>
 	      <box size="${width} ${width} ${height1}"/>
       </geometry>
-      <material name="orange"/>
+      <material name="">
+        <color rgba="0.5 0.6 0.7 1"/>
+      </material>
     </visual>
 
     <inertial>
       <origin xyz="0 0 ${height1/2}" rpy="0 0 0"/>
       <mass value="${mass}"/>
-      <inertia ixx="${mass / 12.0 * (width*width + height1*height1)}" ixy="0.0" ixz="0.0" iyy="${mass / 12.0 * (height1*height1 + width*width)}" iyz="0.0" izz="${mass / 12.0 * (width*width + width*width)}"/>
+      <inertia ixx="${mass / 12.0 * (width*width + height1*height1)}" ixy="0.0" ixz="0.0" 
+               iyy="${mass / 12.0 * (height1*height1 + width*width)}" iyz="0.0" 
+               izz="${mass / 12.0 * (width*width + width*width)}"/>
     </inertial>
   </link>
 
   <joint name="camera_support_joint" type="fixed">
     <parent link="chassis_link"/>
     <child link="camera_support"/>
-    <origin xyz="-0.25 0 0.36" rpy="0 0 0"/>
-    <axis xyz="0 1 0"/>
+    <origin xyz="${axel_offset} 0 0.36" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
   </joint>
+
+  <link name="camera_yaw_link">
+    <collision>
+      <origin xyz="0 0 0.02" rpy="0 0 0"/>
+      <geometry>
+	      <cylinder radius="0.01" length="0.04"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0.02" rpy="0 0 0"/>
+      <geometry>
+	      <cylinder radius="0.01" length="0.04"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 1 1"/>
+      </material>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 0.02" rpy="0 0 0"/>
+      <mass value="0.5"/>
+      <inertia ixx="7.9e-02" ixy="0.0" ixz="0.0" 
+               iyy="7.9e-02" iyz="0.0" 
+               izz="2.5e-02"/>
+    </inertial>
+  </link>
+
+  <joint name="joint_camera_yaw" type="revolute">
+    <parent link="camera_support"/>
+    <child link="camera_yaw_link"/>
+    <origin xyz="0 0 ${height1}" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.047" upper="1.047" effort="20" velocity="1.0" />
+  </joint>
+
+  <link name="camera_pitch_link">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+	      <cylinder radius="0.01" length="0.04"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+	      <cylinder radius="0.01" length="0.04"/>
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.5"/>
+      <inertia ixx="7.9e-02" ixy="0.0" ixz="0.0" 
+               iyy="7.9e-02" iyz="0.0" 
+               izz="2.5e-02"/>
+    </inertial>
+  </link>
+
+  <joint name="joint_camera_pitch" type="revolute">
+    <parent link="camera_yaw_link"/>
+    <child link="camera_pitch_link"/>
+    <origin xyz="0.02 0 0.02" rpy="1.57 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.047" upper="1.047" effort="20" velocity="1.0" />
+  </joint>
+
+  <transmission name="camera_yaw_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_camera_yaw">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="camera_yaw_actuator">
+        <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="camera_pitch_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_camera_pitch">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="camera_pitch_actuator">
+        <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
 
   <xacro:include filename="$(find kortex_mobile_robot_description)/realsense_camera/urdf/robot_sensors__d415.urdf.xacro"/>
   <!-- <xacro:include filename="$(find realsense2_description)/urdf/_d415.urdf.xacro"/> -->
 
-  <xacro:sensor_d415 name="camera" parent="camera_support" flag_color="1" flag_ir="0" flag_depth="0" updaterate="5" ns="${ns}">
+  <xacro:sensor_d415 name="camera" parent="camera_pitch_link" flag_color="1" flag_ir="0" flag_depth="0" updaterate="5" ns="${ns}">
   <!-- <xacro:sensor_d415 parent="camera_support" > -->
-		<origin xyz="0.0 0.0 ${height1}" rpy="0 0 0" /> 
+		<origin xyz="0.02 0.0 0.0" rpy="-1.57 0 0" /> 
 	</xacro:sensor_d415>
 
 
