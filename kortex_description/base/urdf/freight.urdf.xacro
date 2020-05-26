@@ -231,7 +231,7 @@
   <xacro:include filename="$(find kortex_mobile_robot_description)/realsense_camera/urdf/robot_sensors__d415.urdf.xacro"/>
   <!-- <xacro:include filename="$(find realsense2_description)/urdf/_d415.urdf.xacro"/> -->
 
-  <xacro:sensor_d415 name="camera" parent="camera_support" flag_color="1" flag_ir="0" flag_depth="0" updaterate="5">
+  <xacro:sensor_d415 name="camera" parent="camera_support" flag_color="1" flag_ir="0" flag_depth="0" updaterate="5" ns="${ns}">
   <!-- <xacro:sensor_d415 parent="camera_support" > -->
 		<origin xyz="0.0 0.0 ${height1}" rpy="0 0 0" /> 
 	</xacro:sensor_d415>
